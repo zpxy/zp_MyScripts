@@ -36,13 +36,13 @@ def getSubModule(in_file):
         verilog_code = f.read()
     subModule_Matches = re.findall(verilog_code_pattern,verilog_code)
     for match in subModule_Matches:
-        if(match == 'module'):                # skip the unreachable match 
-            continue
-        if(match == 'begin'):                 # skip the unreachable match 
-            continue
         match_path = rtl_folder+match+'.v'
+        if( (match == 'module') | (match == 'begin') | (match == 'else') | (match == 'STOP_COND') | (match == 'PRINTF_COND')):                # skip the unreachable match 
+            continue
+        # if(match == 'begin'):                 # skip the unreachable match 
+        #     continue
         # print("match path :",match_path)
-        if not os.path.exists(match_path):    # skip the unreachable match 
+        elif not os.path.exists(match_path):    # skip the unreachable match 
             continue
         subModuleList.append(match)           # add the sub module name to the submodule list
         allFileList.append(match)             # add the sub module name to the allFileList list
