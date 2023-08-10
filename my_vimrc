@@ -1,0 +1,119 @@
+" 这是一个vimrc的配置文件
+" 设置不兼容vi, 否则插件容易出错
+set nocompatible
+" 设置鼠标可用
+set mouse=a
+" 设置行号
+set nu
+" 设置光标所在行并设置高亮颜色为亮灰色
+set cursorline
+hi CursorLine cterm=NONE ctermbg=239
+" 设置匹配弹出背景色为淡蓝色，配合沙漠主题使用
+hi Pmenusel ctermbg=lightblue
+" 语法开启
+systax on
+" 设置何时开启当前行
+autocmd InsertLeave * se nocul
+autocmd InsertEnter * se cul
+" 设置字体
+set guifont=Monospace\ 24
+" 设置只能缩进和对齐
+set smartindent
+set autoindent
+" 设置tab缩进为 4个空格
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set incsearch
+set hlsearch
+set history=300
+" 设置编码
+set encoding=utf-8
+set autowrite
+" 设置显示文件类型和文件类型插件
+filetype on
+filetype plugin on
+filetype indent on
+
+" 设置彩色显示，以及使用unicode显示airline 的分隔符
+set laststatus=2
+set t_Co=256
+let g:airline_detect_whitespace=0
+let g:airline_powerline_fonts=0
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_linecolumn_prefix = '␊ '
+let g:airline_linecolumn_prefix = '␤ '
+let g:airline_linecolumn_prefix = '¶ '
+let g:airline_branch_prefix = '⎇ '
+let g:airline_paste_symbol = 'ρ'
+let g:airline_paste_symbol = 'Þ'
+let g:airline_paste_symbol = '∥'
+let g:airline_whitespace_symbol = 'Ξ'
+" 设置acp 插件要查找的库的方式，以及对应的字典文件和tags文件
+let g:acp_completeOption = '.,w,b,k,t'
+"set dictionary+=~/.vim/dict/sv_uvm.txt
+autocmd FileType systemverilog set dictionary+=~/.vim/dict/sv_uvm.txt
+autocmd FileType python set dictionary+=~/.vim/dict/py.txt
+set tags+=~/.vim/tags/uvm_tags
+set tags+=~/.vim/tags/tcnt_tags
+
+" 新建文档的时候，调用函数来自动增加文件头注释
+autocmd BufNewFile *.sv,*v,*.svh exec ":call SetFileTitle_sv()"
+autocmd BufNewFile *.c,*.h,*.cpp,*.hpp exec call ":call SetFileTitle_c()"
+autocmd BufNewFile makefile,Makefile,*.mk exec ":call SetFileTitle_mk()"
+autocmd BufNewFile *.py exec ":call SetFileTitle_py()"
+
+func SetFileTitle_sv()
+    call setline(1,         "//**********************************************************")
+    call append(line(".")+0,"// FileNanme : ".expand("%t"))
+    call append(line(".")+1,"// Author    : ZhaoPeng")
+    call append(line(".")+2,"// Time      : ".strftime("%Y-%m-%d %H:%M:%S"))
+    call append(line(".")+3,"// Discribe  : ")
+    call append(line(".")+4,”//----------------------copyright 2023----------------------“)
+    call append(line(".")+5,”//**********************************************************“)
+    call append(line(".")+6,” “)
+    call append(line(".")+7,”`ifndef “.toupper(expand("%:t:r"))."_SV")
+    call append(line(".")+8,”`define “.toupper(expand("%:t:r"))."_SV")
+    call append(line(".")+9,” “)
+    call append(line(".")+10,” “)
+    call append(line(".")+10,”`endif“)
+endfunc
+
+func SetFileTitle_c()
+    call setline(1,         "//**********************************************************")
+    call append(line(".")+0,"// FileNanme : ".expand("%t"))
+    call append(line(".")+1,"// Author    : ZhaoPeng")
+    call append(line(".")+2,"// Time      : ".strftime("%Y-%m-%d %H:%M:%S"))
+    call append(line(".")+3,"// Discribe  : ")
+    call append(line(".")+4,”//----------------------copyright 2023----------------------“)
+    call append(line(".")+5,”//**********************************************************“)
+    call append(line(".")+6,” “)
+    call append(line(".")+7,”#ifndef “.toupper(expand("%:t:r"))."_SV")
+    call append(line(".")+8,”#define “.toupper(expand("%:t:r"))."_SV")
+    call append(line(".")+9,” “)
+    call append(line(".")+10,” “)
+    call append(line(".")+11,”#endif“)
+endfunc
+
+func SetFileTitle_mk()
+    call setline(1,         "#**********************************************************")
+    call append(line(".")+0,"# FileNanme : ".expand("%t"))
+    call append(line(".")+1,"# Author    : ZhaoPeng")
+    call append(line(".")+2,"# Time      : ".strftime("%Y-%m-%d %H:%M:%S"))
+    call append(line(".")+3,"# Discribe  : ")
+    call append(line(".")+4,”#----------------------copyright 2023----------------------“)
+    call append(line(".")+5,”#**********************************************************“)
+endfunc
+
+func SetFileTitle_py()
+    call setline(1,         "#**********************************************************")
+    call append(line(".")+0,"# FileNanme : ".expand("%t"))
+    call append(line(".")+1,"# Author    : ZhaoPeng")
+    call append(line(".")+2,"# Time      : ".strftime("%Y-%m-%d %H:%M:%S"))
+    call append(line(".")+3,"# Discribe  : ")
+    call append(line(".")+4,”#----------------------copyright 2023----------------------“)
+    call append(line(".")+5,”#**********************************************************“)
+endfunc
