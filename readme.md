@@ -25,3 +25,4 @@ SOFTWARE.
 
 * findModule.py 用来寻找一个verilog module 依赖的子模块并打包成一个文件夹
 * verilogSplit.py 用来将 chisel 生成单个verilog文件分割成单个小的module verilog文件并且打包进一个文件夹
+* my_vimrc 用来配置vim
